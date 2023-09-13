@@ -2,17 +2,35 @@
 
 Just... Send an HTTP request per interval to a given URL. You can use any uptime monitoring service to monitor your machine.
 
-## Download 
+## Download & Install
 
 The latest version is available at [GitHub Releases](https://github.com/ImSingee/swatchdog/releases). It's just a single binary file, so you can download it and run it directly.
 
-## Install
+## Usage
+
+Just as simple as... No need to explain anything! Just run it with `--help` to see the help message.
+
+```
+Usage: swatchdog [OPTIONS] --url <URL>
+
+Options:
+  -u, --url <URL>
+      --method <METHOD>      [default: GET]
+      --interval <INTERVAL>  [default: 60s]
+      --verbose
+  -h, --help                 Print help
+  -V, --version              Print version
+```
+
+The tool is tested with [uptime-kuma](https://github.com/louislam/uptime-kuma) and I personally recommend it.
+
+## Configure
 
 You may need to configure it to make it run as a service (start on boot).
 
 **linux systemd service example**
 
-```systemd
+```ini
 [Unit]
 Description=swatchdog
 
@@ -29,7 +47,7 @@ WantedBy=multi-user.target
 
 **macos launchd service example**
 
-```plist
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
