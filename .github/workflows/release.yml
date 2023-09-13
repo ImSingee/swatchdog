@@ -31,3 +31,4 @@ jobs:
         with:
           bin: swatchdog
           token: ${{ secrets.GITHUB_TOKEN }}
+          target: ${{ matrix.os == 'windows-latest' && 'x86_64-unknown-linux-musl' || '' }}
