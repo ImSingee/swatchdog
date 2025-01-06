@@ -11,7 +11,7 @@ RUN cargo chef cook --release --recipe-path recipe.json
 COPY . .
 RUN cargo build --release
 
-FROM alpine AS runtime
+FROM debian:bookworm-slim AS runtime
 WORKDIR /app
 COPY --from=builder /app/target/release/swatchdog /usr/local/bin
 ENTRYPOINT ["/usr/local/bin/swatchdog"]
