@@ -24,11 +24,13 @@ Options:
 
 The tool is tested with [uptime-kuma](https://github.com/louislam/uptime-kuma) and I personally recommend it.
 
-## Configure
+## Setup
 
-You may need to configure it to make it run as a service (start on boot).
+### Linux service
 
-**linux systemd service example**
+You may wish to make it start on boot. Setup a systemd service can help with this.
+
+Create the following service (modify args in `ExecStart` based on your need) file.
 
 ```ini
 [Unit]
@@ -43,9 +45,13 @@ ExecStart=/path/to/swatchdog -u http://example.com --interval 60s
 WantedBy=multi-user.target
 ```
 
-(place it under `/lib/systemd/system/swatchdog.service` and run `systemctl enable swatchdog`)
+Save the file to `/lib/systemd/system/swatchdog.service` and run `systemctl enable swatchdog`.
 
-**macos launchd service example**
+### MacOS Service
+
+You may wish to make it start on boot. Setup a launchd service can help with this.
+
+Create the following service (modify args in `ProgramArguments` based on your need) file.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -72,7 +78,29 @@ WantedBy=multi-user.target
 </plist>
 ```
 
-(place it under `~/Library/LaunchAgents/me.singee.swatchdog.plist` and run `launchctl load ~/Library/LaunchAgents/me.singee.swatchdog.plist`)
+Save the file to `~/Library/LaunchAgents/me.singee.swatchdog.plist` and run `launchctl load ~/Library/LaunchAgents/me.singee.swatchdog.plist`.
+
+### Docker container
+
+If you prefer docker, run this:
+
+```shell
+docker run -d --restart=unless-stopped ghcr.io/imsingee/swatchdog:latest -u=http://example.com --interval=60s
+```
+
+Or with a docker compose:
+
+```yaml
+services:
+  swatchdog:
+    image: ghcr.io/imsingee/swatchdog:master
+    command:
+      - '-u'
+      - 'http://example.com'
+      - '--interval
+      - '60s'
+    restart: unless-stopped
+```
 
 ## License
 
